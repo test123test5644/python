@@ -1,0 +1,38 @@
+#用python 直接改值---------------------------------A1 123456
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
+
+# 設置Google Sheets API的作用範圍
+scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive.file", "https://www.googleapis.com/auth/drive"]
+
+# 使用您的服務帳戶憑證
+creds = ServiceAccountCredentials.from_json_keyfile_name('lively-vim-431500-v3-416bb0754743.json', scope)
+
+# 使用gspread客戶端進行身份驗證
+client = gspread.authorize(creds)
+
+# 打開Google Sheets文檔
+sheet = client.open_by_key("1XMsyPv-O4UCc_Mwby7W1jRl9gcguNwTwfeQpOzcd38A").sheet1  # 或使用其他索引來選擇工作表
+
+# 在A1單元格填入數字1
+sheet.update_acell('A1', 123456)
+
+print("A1已更新為1")
+
+
+#用apps script 的程式改值.--------------------------A2 1234
+import requests
+
+# 替换为你的 Web App URL
+url = "https://script.google.com/macros/s/AKfycbzJJI0RqHFuMTBWnsxlfRllo1gzXzfSOTC1zTui3i_B8npTaC2PPBu9FiwQm5Dz-3q7bA/exec"
+
+response = requests.get(url)
+
+if response.status_code == 200:
+    print("Apps Script 已成功执行。")
+    print(response.text)  # 打印返回的内容，可能是 HTML
+else:
+    print(f"执行失败，状态码: {response.status_code}")
+    print(response.text)  # 打印返回的内容，可能是 HTML
+with open("response.html", "w", encoding="utf-8") as f:
+    f.write(response.text)
